@@ -44,7 +44,7 @@ type RPCOption func(cfg *rpcConfig)
 
 func WithCallTimeout(d time.Duration) RPCOption {
 	return func(cfg *rpcConfig) {
-		fmt.Printf("WithCallTimeout: %s", d.String())
+		fmt.Printf("WithCallTimeout: %s\n", d.String())
 		cfg.callTimeout = d
 	}
 }
@@ -130,7 +130,7 @@ func applyOptions(opts []RPCOption) rpcConfig {
 		cfg.backoffAttempts = 1
 	}
 	if cfg.callTimeout == 0 {
-		fmt.Printf("cfg.callTimeout == 0")
+		fmt.Printf("cfg.callTimeout == 0\n")
 		cfg.callTimeout = 10 * time.Second
 	}
 	if cfg.batchCallTimeout == 0 {
@@ -225,11 +225,11 @@ func (b *BaseRPCClient) Close() {
 }
 
 func (b *BaseRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
-	fmt.Printf("BaseRPCClient.CallContext.Start. method: %s, args: %s, timeout: %s", method, args, b.callTimeout.String())
+	fmt.Printf("BaseRPCClient.CallContext.Start. method: %s, timeout: %s\n", method, b.callTimeout.String())
 	cCtx, cancel := context.WithTimeout(ctx, b.callTimeout)
 	defer cancel()
 	err := b.c.CallContext(cCtx, result, method, args...)
-	fmt.Printf("BaseRPCClient.CallContext.Finish. method: %s, args: %s, timeout: %s, err: %s", method, args, b.callTimeout.String(), err)
+	fmt.Printf("BaseRPCClient.CallContext.Finish. method: %s, timeout: %s, err: %s\n", method, b.callTimeout.String(), err)
 	return err
 }
 

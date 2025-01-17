@@ -68,7 +68,7 @@ func (cfg *L2EndpointConfig) Setup(ctx context.Context, log log.Logger, rollupCf
 		return nil, nil, err
 	}
 	auth := rpc.WithHTTPAuth(gn.NewJWTAuth(cfg.L2EngineJWTSecret))
-	fmt.Printf("L2EndpointConfig.Setup: %s", cfg.L2EngineCallTimeout.String())
+	fmt.Printf("L2EndpointConfig.Setup: %s\n", cfg.L2EngineCallTimeout.String())
 	opts := []client.RPCOption{
 		client.WithGethRPCOptions(auth),
 		client.WithDialAttempts(10),
