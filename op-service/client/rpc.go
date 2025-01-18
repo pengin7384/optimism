@@ -225,11 +225,12 @@ func (b *BaseRPCClient) Close() {
 }
 
 func (b *BaseRPCClient) CallContext(ctx context.Context, result any, method string, args ...any) error {
-	fmt.Printf("BaseRPCClient.CallContext.Start. method: %s, timeout: %s\n", method, b.callTimeout.String())
+	start := time.Now()
+	fmt.Printf("%s: BaseRPCClient.CallContext.Start. method: %s, timeout: %s\n", start.String(), method, b.callTimeout.String())
 	cCtx, cancel := context.WithTimeout(ctx, b.callTimeout)
 	defer cancel()
 	err := b.c.CallContext(cCtx, result, method, args...)
-	fmt.Printf("BaseRPCClient.CallContext.Finish. method: %s, timeout: %s, err: %s\n", method, b.callTimeout.String(), err)
+	fmt.Printf("%s: BaseRPCClient.CallContext.Finish. method: %s, timeout: %s, err: %s, elapsed: %d\n", start.String(), method, b.callTimeout.String(), err, time.Since(start))
 	return err
 }
 

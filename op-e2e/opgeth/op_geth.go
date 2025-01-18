@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"reflect"
 	"testing"
+	"time"
 
 	"github.com/ethereum-optimism/optimism/op-e2e/system/e2esys"
 
@@ -131,6 +132,18 @@ func (d *OpGeth) Close() {
 // AddL2Block Appends a new L2 block to the current chain including the specified transactions
 // The L1Info transaction is automatically prepended to the created block
 func (d *OpGeth) AddL2Block(ctx context.Context, txs ...*types.Transaction) (*eth.ExecutionPayloadEnvelope, error) {
+	var llog log.Logger
+	if d.L2Head != nil {
+		llog = d.lgr.New("blockNumber", d.L2Head.BlockNumber)
+	} else {
+		llog = d.lgr.New()
+	}
+
+	now := time.Now()
+	llog.Info("AddL2Block start")
+	defer func() {
+		llog.Info("AddL2Block finished", "elapsed", time.Since(now))
+	}()
 	attrs, err := d.CreatePayloadAttributes(txs...)
 	if err != nil {
 		return nil, err
