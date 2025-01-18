@@ -230,7 +230,7 @@ func (b *BaseRPCClient) CallContext(ctx context.Context, result any, method stri
 	cCtx, cancel := context.WithTimeout(ctx, b.callTimeout)
 	defer cancel()
 	err := b.c.CallContext(cCtx, result, method, args...)
-	fmt.Printf("%s: BaseRPCClient.CallContext.Finish. method: %s, timeout: %s, err: %s, elapsed: %d\n", start.String(), method, b.callTimeout.String(), err, time.Since(start))
+	fmt.Printf("%s: BaseRPCClient.CallContext.Finish. method: %s, timeout: %s, err: %s, elapsed: %dms\n", start.String(), method, b.callTimeout.String(), err, time.Since(start).Milliseconds())
 	return err
 }
 

@@ -78,7 +78,7 @@ func (s *EngineAPIClient) ForkchoiceUpdate(ctx context.Context, fc *eth.Forkchoi
 	llog := s.log.New("state", fc)       // local logger
 	tlog := llog.New("attr", attributes) // trace logger
 	tlog.Trace("Sharing forkchoice-updated signal")
-	llog.Info("ForkchoiceUpdate. ", "txslength", len(attributes.Transactions))
+	llog.Info("ForkchoiceUpdate. ")
 	var result eth.ForkchoiceUpdatedResult
 	method := s.evp.ForkchoiceUpdatedVersion(attributes)
 	err := s.RPC.CallContext(ctx, &result, string(method), fc, attributes)
